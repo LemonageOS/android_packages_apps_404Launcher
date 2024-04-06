@@ -62,4 +62,8 @@
     <string name="pref_sleep_gesture_title">Double tap to sleep</string>
     <string name="pref_sleep_gesture_summary">Double tap on empty space to turn screen off</string>
 
+    <!-- Uninstall button -->
+    <string name="pref_uninstall_btn_title">Show uninstall button</string>
+    <string name="pref_uninstall_btn_summary">Add uninstall action to the app shortcuts popup in the recents screen</string>
+
 </resources>

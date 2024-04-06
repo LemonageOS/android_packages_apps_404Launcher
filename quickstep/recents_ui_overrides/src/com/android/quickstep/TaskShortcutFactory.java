@@ -40,6 +40,7 @@ import android.view.View;
 import com.android.launcher3.BaseDraggingActivity;
 import com.android.launcher3.DeviceProfile;
 import com.android.launcher3.R;
+import com.android.launcher3.Utilities;
 import com.android.launcher3.logging.StatsLogManager.LauncherEvent;
 import com.android.launcher3.model.WellbeingModel;
 import com.android.launcher3.popup.SystemShortcut;
@@ -74,8 +75,9 @@ public interface TaskShortcutFactory {
     TaskShortcutFactory APP_INFO = (activity, view) -> new AppInfo(activity, view.getItemInfo());
 
     TaskShortcutFactory UNINSTALL = (activity, view) ->
-            PackageManagerHelper.isSystemApp(activity,
-                 view.getTask().getTopComponent().getPackageName())
+            !Utilities.showUninstallBtn(view.getContext())
+            || PackageManagerHelper.isSystemApp(activity,
+                view.getTask().getTopComponent().getPackageName())
                     ? null : new SystemShortcut.UnInstall(activity, view.getItemInfo());
 
     abstract class MultiWindowFactory implements TaskShortcutFactory {

@@ -130,6 +130,7 @@ public final class Utilities {
     public static final String ICON_SIZE = "pref_icon_size";
 
     public static final String SLEEP_GESTURE = "pref_sleep_gesture";
+    public static final String UNINSTALL_BTN = "pref_uninstall_btn";
 
     /**
      * Indicates if the device has a debug build. Should only be used to store additional info or
@@ -784,6 +785,10 @@ public final class Utilities {
 
     public static boolean useSleepGesture(Context context) {
         return getPrefs(context).getBoolean(SLEEP_GESTURE, true);
+    }
+
+    public static boolean showUninstallBtn(Context context) {
+        return getPrefs(context).getBoolean(UNINSTALL_BTN, false);
     }
 
     public static void restart(final Context context) {

@@ -76,6 +76,14 @@
             android:summary="@string/pref_sleep_gesture_summary"
             android:defaultValue="true"
             android:persistent="true"/>
+
+        <SwitchPreference
+            android:key="pref_uninstall_btn"
+            android:title="@string/pref_uninstall_btn_title"
+            android:summary="@string/pref_uninstall_btn_summary"
+            android:defaultValue="false"
+            android:persistent="true"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -125,5 +133,5 @@
             android:entryValues="@array/grid_values"
             android:defaultValue="-1"
             android:persistent="true" />
-     </PreferenceCategory>
+    </PreferenceCategory>
 </androidx.preference.PreferenceScreen>
