@@ -18,6 +18,7 @@ package com.android.launcher3;
 
 import static com.android.launcher3.InvariantDeviceProfile.KEY_SHOW_DESKTOP_LABELS;
 import static com.android.launcher3.InvariantDeviceProfile.KEY_SHOW_DRAWER_LABELS;
+import static com.android.launcher3.InvariantDeviceProfile.KEY_TWO_LINE_LABELS;
 import static com.android.launcher3.icons.GraphicsUtils.setColorAlphaBound;
 
 import android.animation.Animator;
@@ -148,6 +149,7 @@ public class BubbleTextView extends TextView implements ItemInfoUpdateReceiver, 
     private boolean mDisableRelayout = false;
 
     private boolean mShouldShowLabel;
+    private int mMaxLines;
 
     private IconLoadRequest mIconLoadRequest;
 
@@ -192,6 +194,8 @@ public class BubbleTextView extends TextView implements ItemInfoUpdateReceiver, 
             defaultIconSize = grid.iconSizePx;
             mShouldShowLabel = prefs.getBoolean(KEY_SHOW_DESKTOP_LABELS, true);
         }
+
+        mMaxLines = prefs.getBoolean(KEY_TWO_LINE_LABELS, true) ? 2 : 1;
 
         mCenterVertically = a.getBoolean(R.styleable.BubbleTextView_centerVertically, false);
 
@@ -305,6 +309,7 @@ public class BubbleTextView extends TextView implements ItemInfoUpdateReceiver, 
         if (mShouldShowLabel) {
             setText(info.title);
         }
+        setMaxLines(mMaxLines);
         if (info.contentDescription != null) {
             setContentDescription(info.isDisabled()
                     ? getContext().getString(R.string.disabled_app_label, info.contentDescription)

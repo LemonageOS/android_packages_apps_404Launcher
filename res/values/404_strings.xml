@@ -66,4 +66,8 @@
     <string name="pref_uninstall_btn_title">Show uninstall button</string>
     <string name="pref_uninstall_btn_summary">Add uninstall action to the app shortcuts popup in the recents screen</string>
 
+    <!-- Two-line app labels -->
+    <string name="two_line_labels_title">Multiline labels</string>
+    <string name="two_line_labels_summary">Increase the number of maximum lines to 2 so that long labels can be wrapped</string>
+
 </resources>
