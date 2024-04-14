@@ -45,6 +45,7 @@ import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCH
 import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_ONSTOP;
 import static com.android.launcher3.logging.StatsLogManager.containerTypeToAtomState;
 import static com.android.launcher3.popup.SystemShortcut.APP_INFO;
+import static com.android.launcher3.popup.SystemShortcut.FREE_FORM;
 import static com.android.launcher3.popup.SystemShortcut.INSTALL;
 import static com.android.launcher3.popup.SystemShortcut.UNINSTALL;
 import static com.android.launcher3.popup.SystemShortcut.WIDGETS;
@@ -2729,7 +2730,7 @@ public class Launcher extends StatefulActivity<LauncherState> implements Launche
     }
 
     public Stream<SystemShortcut.Factory> getSupportedShortcuts() {
-        return Stream.of(APP_INFO, WIDGETS, INSTALL, UNINSTALL);
+        return Stream.of(APP_INFO, WIDGETS, INSTALL, UNINSTALL, FREE_FORM);
     }
 
 
