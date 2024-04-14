@@ -19,8 +19,5 @@
 -->
 <resources>
 
-    <!-- Bottomsheet bg color -->
-    <color name="app_info_bottom_sheet_bg">#ffffff</color>
-
-    <color name="all_apps_search_hint">@*android:color/accent_device_default_light</color>
+    <color name="all_apps_search_hint">@*android:color/monet_launcher_app_drawer_search_bar_hint</color>
 </resources>

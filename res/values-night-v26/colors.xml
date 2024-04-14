@@ -20,6 +20,6 @@
 <resources>
     <color name="p404_color2">@*android:color/primary_dark_device_default_settings</color>
     <color name="p404_color1">@*android:color/primary_device_default_settings</color>
-    <color name="all_apps_bg_search">@color/p404_color1</color>
+    <color name="all_apps_bg_search">@*android:color/monet_launcher_app_drawer_search_bar_background</color>
     <color name="app_info_bottom_sheet_bg">@*android:color/primary_dark_device_default_dark</color>
 </resources>
