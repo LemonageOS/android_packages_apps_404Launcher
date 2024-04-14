@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 
 import com.android.launcher3.AbstractFloatingView;
 import com.android.launcher3.BaseDraggingActivity;
+import com.android.launcher3.customization.InfoBottomSheet;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.R;
 import com.android.launcher3.model.WidgetItem;
@@ -34,7 +35,7 @@ import com.android.launcher3.util.PackageManagerHelper;
 import com.android.launcher3.util.PackageUserKey;
 import com.android.launcher3.widget.WidgetsBottomSheet;
 
-import com.android.launcher3.customization.InfoBottomSheet;
+import com.android.systemui.shared.system.ActivityManagerWrapper;
 
 import java.util.List;
 
@@ -221,7 +222,9 @@ public abstract class SystemShortcut<T extends BaseDraggingActivity> extends Ite
     }
 
     public static final Factory<BaseDraggingActivity> FREE_FORM = (activity, itemInfo) -> 
-        new FreeForm(activity, itemInfo);
+        ActivityManagerWrapper.getInstance().supportsFreeformMultiWindow(activity) 
+            ? new FreeForm(activity, itemInfo)
+            : null;
 
     public static class FreeForm extends SystemShortcut<BaseDraggingActivity> {
         private final String mPackageName;
