@@ -63,6 +63,7 @@ import com.android.launcher3.util.WindowBounds;
  */
 public abstract class BaseDraggingActivity extends BaseActivity
         implements WallpaperColorInfo.OnChangeListener, DisplayInfoChangeListener {
+    private static final boolean DEBUG = true;
 
     private static final String TAG = "BaseDraggingActivity";
 
@@ -163,6 +164,9 @@ public abstract class BaseDraggingActivity extends BaseActivity
 
         Bundle optsBundle = (v != null) ? getActivityLaunchOptionsAsBundle(v) : null;
         UserHandle user = item == null ? null : item.user;
+        UserHandle myUserHandle = Process.myUserHandle();
+        dlog(String.format("startActivitySafely: myUserHandle == null = %b",
+                myUserHandle == null));
 
         // Prepare intent
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -177,11 +181,11 @@ public abstract class BaseDraggingActivity extends BaseActivity
             if (isShortcut) {
                 // Shortcuts need some special checks due to legacy reasons.
                 startShortcutIntentSafely(intent, optsBundle, item, sourceContainer);
-            } else if (user == null || user.equals(Process.myUserHandle())) {
+            } else if (myUserHandle != null && (user == null || user.equals(myUserHandle))) {
                 // Could be launching some bookkeeping activity
                 startActivity(intent, optsBundle);
                 AppLaunchTracker.INSTANCE.get(this).onStartApp(intent.getComponent(),
-                        Process.myUserHandle(), sourceContainer);
+                        myUserHandle, sourceContainer);
             } else {
                 getSystemService(LauncherApps.class).startMainActivity(
                         intent.getComponent(), user, intent.getSourceBounds(), optsBundle);
@@ -299,5 +303,9 @@ public abstract class BaseDraggingActivity extends BaseActivity
         Point mwSize = new Point();
         display.getSize(mwSize);
         return new WindowBounds(new Rect(0, 0, mwSize.x, mwSize.y), new Rect());
+    }
+
+    private static void dlog(String msg) {
+        if (DEBUG) Log.d(TAG, msg);
     }
 }
