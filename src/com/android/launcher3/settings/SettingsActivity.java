@@ -92,6 +92,14 @@ public class SettingsActivity extends Activity
 
     private static final String KEY_ICON_PACK = "pref_icon_pack";
 
+    public static final String[] PREFERENCE_KEYS = {
+        NOTIFICATION_DOTS_PREFERENCE_KEY,
+        ADD_ICON_PREFERENCE_KEY,
+        ALLOW_ROTATION_PREFERENCE_KEY,
+        KEY_ENABLE_MINUS_ONE,
+        KEY_ICON_PACK
+    };
+
     private static Context mContext;
 
     @Override
@@ -190,8 +198,8 @@ public class SettingsActivity extends Activity
             setPreferencesFromResource(R.xml.launcher_preferences, rootKey);
 
             PreferenceScreen screen = getPreferenceScreen();
-            for (int i = screen.getPreferenceCount() - 1; i >= 0; i--) {
-                Preference preference = screen.getPreference(i);
+            for (int i = 0; i < PREFERENCE_KEYS.length; i++) {
+                Preference preference = findPreference(PREFERENCE_KEYS[i]);
                 if (!initPreference(preference)) {
                     screen.removePreference(preference);
                 }
@@ -246,7 +254,9 @@ public class SettingsActivity extends Activity
          * will remove that preference from the list.
          */
         protected boolean initPreference(Preference preference) {
-            switch (preference.getKey()) {
+            String prefKey = preference.getKey();
+            dlog(String.format("initPreference: preference.getKey() = %s", prefKey));
+            switch (prefKey) {
                 case NOTIFICATION_DOTS_PREFERENCE_KEY:
                     if (!Utilities.ATLEAST_OREO ||
                             !getResources().getBoolean(R.bool.notification_dots_enabled)) {
@@ -309,15 +319,22 @@ public class SettingsActivity extends Activity
 
         public static boolean isGSAEnabled(Context context) {
             try {
-                return context.getPackageManager().getApplicationInfo(GSA_PACKAGE, 0).enabled;
+                boolean enabled = context.getPackageManager().getApplicationInfo(GSA_PACKAGE, 0).enabled;
+                dlog(String.format("isGSAEnabled: return %b", enabled));
+                return enabled;
             } catch (PackageManager.NameNotFoundException e) {
+                dlog("isGSAEnabled: PackageManager.NameNotFoundException e");
                 return false;
             }
         }
 
         private void updateIsGoogleAppEnabled() {
             if (mShowGoogleAppPref != null) {
-                mShowGoogleAppPref.setEnabled(isGSAEnabled(getContext()));
+                boolean enabled = isGSAEnabled(getContext());
+                mShowGoogleAppPref.setEnabled(enabled);
+                dlog(String.format("isGSAEnabled(getContext()) = %b ", enabled));
+            } else {
+                dlog("updateIsGoogleAppEnabled: mShowGoogleAppPref == null");
             }
         }
 
