@@ -71,6 +71,9 @@ public class SettingsActivity extends Activity
         implements OnPreferenceStartFragmentCallback, OnPreferenceStartScreenCallback,
         SharedPreferences.OnSharedPreferenceChangeListener{
 
+    private static final boolean DEBUG = true;
+    private static final String TAG = "404Launcher";
+
     private static final String SUGGESTIONS_KEY = "pref_suggestions";
     private static final String DEVELOPER_OPTIONS_KEY = "pref_developer_options";
     private static final String FLAGS_PREFERENCE_KEY = "flag_toggler";
@@ -115,7 +118,8 @@ public class SettingsActivity extends Activity
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (Utilities.ICON_SIZE.equals(key)) {
-                LauncherAppState.getInstanceNoCreate().setNeedsRestart();
+                dlog("onSharedPreferenceChanged: key = Utilities.ICON_SIZE");
+                LauncherAppState.getInstanceNoCreate().Restart();
         }
     }
 
@@ -361,10 +365,11 @@ public class SettingsActivity extends Activity
                 mNotificationDotsObserver.unregister();
                 mNotificationDotsObserver = null;
             }
-            // if we don't press the home button but the back button to close Settings,
-            // then we must force a restart because the home button watcher wouldn't trigger it
-            LauncherAppState.getInstanceNoCreate().checkIfRestartNeeded();
             super.onDestroy();
         }
+    }
+
+    private static void dlog(String msg) {
+        if (DEBUG) Log.d(TAG, msg);
     }
 }

@@ -145,27 +145,15 @@ public class LauncherAppState {
         mHomeKeyListener = new HomeKeyWatcher(mContext);
     }
 
-    public void setNeedsRestart() {
+    // function to restart without having to pass a context
+    public void Restart() {
         if (mNeedsRestart) {
             // another pref change already called a restart
             return;
         }
         mNeedsRestart = true;
-        mHomeKeyListener.startWatch();
-        mHomeKeyListener.setOnHomePressedListener(() -> {
-            mHomeKeyListener.stopWatch();
-            Utilities.restart(mContext);
-            // we're killing the whole process so no need to set mNeedsRestart to false again
-        });
-    }
-
-    public void checkIfRestartNeeded() {
-        // we destroyed Settings activity with the back button
-        // so we force a restart now if needed without waiting for home button press
-        if (mNeedsRestart) {
-            mHomeKeyListener.stopWatch();
-            Utilities.restart(mContext);
-        }
+        Utilities.restart(mContext);
+        // we're killing the whole process so no need to set mNeedsRestart to false again
     }
 
     private void onIdpChanged(int changeFlags, InvariantDeviceProfile idp) {
