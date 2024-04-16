@@ -453,6 +453,10 @@ public final class Utilities {
         return "1".equals(getSystemProperty("sys.boot_completed", "1"));
     }
 
+    public static boolean isDebug() {
+        return "true".equals(getSystemProperty("persist.sys.debug", "false"));
+    }
+
     public static String getSystemProperty(String property, String defaultValue) {
         try {
             Class clazz = Class.forName("android.os.SystemProperties");

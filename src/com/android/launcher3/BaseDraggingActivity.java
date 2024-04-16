@@ -18,6 +18,7 @@ package com.android.launcher3;
 
 import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_APP_LAUNCH_TAP;
 import static com.android.launcher3.util.DefaultDisplay.CHANGE_ROTATION;
+import static com.android.launcher3.Utilities.isDebug;
 
 import android.app.ActivityOptions;
 import android.content.ActivityNotFoundException;
@@ -63,7 +64,7 @@ import com.android.launcher3.util.WindowBounds;
  */
 public abstract class BaseDraggingActivity extends BaseActivity
         implements WallpaperColorInfo.OnChangeListener, DisplayInfoChangeListener {
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = isDebug();
 
     private static final String TAG = "BaseDraggingActivity";
 

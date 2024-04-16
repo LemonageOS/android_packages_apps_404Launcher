@@ -20,6 +20,7 @@ import static com.android.launcher3.SessionCommitReceiver.ADD_ICON_PREFERENCE_KE
 import static com.android.launcher3.states.RotationHelper.ALLOW_ROTATION_PREFERENCE_KEY;
 import static com.android.launcher3.states.RotationHelper.getAllowRotationDefaultValue;
 import static com.android.launcher3.util.SecureSettingsObserver.newNotificationSettingsObserver;
+import static com.android.launcher3.Utilities.isDebug;
 
 import static co.p404.launcher.OverlayCallbackImpl.KEY_ENABLE_MINUS_ONE;
 
@@ -71,7 +72,7 @@ public class SettingsActivity extends Activity
         implements OnPreferenceStartFragmentCallback, OnPreferenceStartScreenCallback,
         SharedPreferences.OnSharedPreferenceChangeListener{
 
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = isDebug();
     private static final String TAG = "404Launcher";
 
     private static final String SUGGESTIONS_KEY = "pref_suggestions";
