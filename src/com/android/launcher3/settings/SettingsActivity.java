@@ -20,6 +20,7 @@ import static com.android.launcher3.SessionCommitReceiver.ADD_ICON_PREFERENCE_KE
 import static com.android.launcher3.states.RotationHelper.ALLOW_ROTATION_PREFERENCE_KEY;
 import static com.android.launcher3.states.RotationHelper.getAllowRotationDefaultValue;
 import static com.android.launcher3.util.SecureSettingsObserver.newNotificationSettingsObserver;
+import static com.android.launcher3.Utilities.getPrefsToInit;
 import static com.android.launcher3.Utilities.isDebug;
 
 import static co.p404.launcher.OverlayCallbackImpl.KEY_ENABLE_MINUS_ONE;
@@ -100,6 +101,8 @@ public class SettingsActivity extends Activity
         KEY_ENABLE_MINUS_ONE,
         KEY_ICON_PACK
     };
+
+    private static final int prefsToInit = getPrefsToInit();
 
     private static Context mContext;
 
@@ -199,7 +202,13 @@ public class SettingsActivity extends Activity
             setPreferencesFromResource(R.xml.launcher_preferences, rootKey);
 
             PreferenceScreen screen = getPreferenceScreen();
+            dlog(String.format("onCreatePreferences: prefsToInit = %d", prefsToInit));
             for (int i = 0; i < PREFERENCE_KEYS.length; i++) {
+                int exp = (int) Math.pow(2, i);
+                boolean shouldInit = (exp & prefsToInit) != 0;
+                dlog(String.format("onCreatePreferences: exp = %d, shouldInit = %b", exp, shouldInit));
+                if (!shouldInit) continue;
+
                 Preference preference = findPreference(PREFERENCE_KEYS[i]);
                 if (!initPreference(preference)) {
                     screen.removePreference(preference);
