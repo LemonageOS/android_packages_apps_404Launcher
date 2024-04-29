@@ -20,7 +20,6 @@ import static com.android.launcher3.SessionCommitReceiver.ADD_ICON_PREFERENCE_KE
 import static com.android.launcher3.states.RotationHelper.ALLOW_ROTATION_PREFERENCE_KEY;
 import static com.android.launcher3.states.RotationHelper.getAllowRotationDefaultValue;
 import static com.android.launcher3.util.SecureSettingsObserver.newNotificationSettingsObserver;
-import static com.android.launcher3.Utilities.getPrefsToInit;
 import static com.android.launcher3.Utilities.isDebug;
 
 import static co.p404.launcher.OverlayCallbackImpl.KEY_ENABLE_MINUS_ONE;
@@ -93,16 +92,6 @@ public class SettingsActivity extends Activity
     public static final String SAVE_HIGHLIGHTED_KEY = "android:preference_highlighted";
 
     private static final String KEY_ICON_PACK = "pref_icon_pack";
-
-    public static final String[] PREFERENCE_KEYS = {
-        NOTIFICATION_DOTS_PREFERENCE_KEY,
-        ADD_ICON_PREFERENCE_KEY,
-        ALLOW_ROTATION_PREFERENCE_KEY,
-        KEY_ENABLE_MINUS_ONE,
-        KEY_ICON_PACK
-    };
-
-    private static final int prefsToInit = getPrefsToInit();
 
     private static Context mContext;
 
@@ -202,14 +191,8 @@ public class SettingsActivity extends Activity
             setPreferencesFromResource(R.xml.launcher_preferences, rootKey);
 
             PreferenceScreen screen = getPreferenceScreen();
-            dlog(String.format("onCreatePreferences: prefsToInit = %d", prefsToInit));
-            for (int i = 0; i < PREFERENCE_KEYS.length; i++) {
-                int exp = (int) Math.pow(2, i);
-                boolean shouldInit = (exp & prefsToInit) != 0;
-                dlog(String.format("onCreatePreferences: exp = %d, shouldInit = %b", exp, shouldInit));
-                if (!shouldInit) continue;
-
-                Preference preference = findPreference(PREFERENCE_KEYS[i]);
+            for (int i = screen.getPreferenceCount() - 1; i >= 0; i--) {
+                Preference preference = screen.getPreference(i);
                 if (!initPreference(preference)) {
                     screen.removePreference(preference);
                 }
@@ -264,9 +247,7 @@ public class SettingsActivity extends Activity
          * will remove that preference from the list.
          */
         protected boolean initPreference(Preference preference) {
-            String prefKey = preference.getKey();
-            dlog(String.format("initPreference: preference.getKey() = %s", prefKey));
-            switch (prefKey) {
+            switch (preference.getKey()) {
                 case NOTIFICATION_DOTS_PREFERENCE_KEY:
                     if (!Utilities.ATLEAST_OREO ||
                             !getResources().getBoolean(R.bool.notification_dots_enabled)) {
@@ -329,22 +310,15 @@ public class SettingsActivity extends Activity
 
         public static boolean isGSAEnabled(Context context) {
             try {
-                boolean enabled = context.getPackageManager().getApplicationInfo(GSA_PACKAGE, 0).enabled;
-                dlog(String.format("isGSAEnabled: return %b", enabled));
-                return enabled;
+                return context.getPackageManager().getApplicationInfo(GSA_PACKAGE, 0).enabled;
             } catch (PackageManager.NameNotFoundException e) {
-                dlog("isGSAEnabled: PackageManager.NameNotFoundException e");
                 return false;
             }
         }
 
         private void updateIsGoogleAppEnabled() {
             if (mShowGoogleAppPref != null) {
-                boolean enabled = isGSAEnabled(getContext());
-                mShowGoogleAppPref.setEnabled(enabled);
-                dlog(String.format("isGSAEnabled(getContext()) = %b ", enabled));
-            } else {
-                dlog("updateIsGoogleAppEnabled: mShowGoogleAppPref == null");
+                mShowGoogleAppPref.setEnabled(isGSAEnabled(getContext()));
             }
         }
 

@@ -457,10 +457,6 @@ public final class Utilities {
         return "true".equals(getSystemProperty("persist.sys.debug", "false"));
     }
 
-    public static int getPrefsToInit() {
-        return Integer.parseInt(getSystemProperty("persist.sys.launcher.prefs_to_init", "31"));
-    }
-
     public static String getSystemProperty(String property, String defaultValue) {
         try {
             Class clazz = Class.forName("android.os.SystemProperties");
